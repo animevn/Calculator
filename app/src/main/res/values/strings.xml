@@ -20,4 +20,5 @@
     <string name="bnDel">DE</string>
     <string name="empty" />
     <string name="bnCE">CE</string>
+    <string name="error">Divide by zero?</string>
 </resources>

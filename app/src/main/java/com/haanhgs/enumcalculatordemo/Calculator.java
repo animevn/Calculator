@@ -6,7 +6,13 @@ import java.math.RoundingMode;
 public class Calculator {
 
     public enum Operator{
-        Add, Sub, Div, Mul;
+        Add("+"), Sub("-"), Div(":"), Mul("x");
+
+        public String sign;
+
+        Operator(String sign){
+            this.sign = sign;
+        }
     }
 
     public BigDecimal add(BigDecimal operand1, BigDecimal operand2){

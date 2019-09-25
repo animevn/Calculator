@@ -1,12 +1,12 @@
 package com.haanhgs.enumcalculatordemo;
 
 import androidx.appcompat.app.AppCompatActivity;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
 import java.math.BigDecimal;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -40,16 +40,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button bnDel;
     private Button bnCE;
 
+    private void hideActionBarAndForcePortraitMode(){
+        if (getSupportActionBar() != null) getSupportActionBar().hide();
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+    }
+
     private void initalizeViews(){
         tvTest = findViewById(R.id.tvTest);
         etDisplay = findViewById(R.id.etDisplay);
+
         bnAdd = findViewById(R.id.bnAdd);
         bnSub = findViewById(R.id.bnSub);
         bnDiv = findViewById(R.id.bnDiv);
         bnMul = findViewById(R.id.bnMul);
+
         bnResult = findViewById(R.id.bnResult);
+
+        bnCE =findViewById(R.id.bnCE);
         bnDel = findViewById(R.id.bnDel);
+
         bnDot = findViewById(R.id.bnDot);
+
         bnZero = findViewById(R.id.bnZero);
         bnOne = findViewById(R.id.bnOne);
         bnTwo = findViewById(R.id.bnTwo);
@@ -60,7 +71,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         bnSeven = findViewById(R.id.bnSeven);
         bnEight = findViewById(R.id.bnEight);
         bnNine = findViewById(R.id.bnNine);
-        bnCE =findViewById(R.id.bnCE);
     }
 
     private void setupButtons(){
@@ -68,9 +78,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         bnSub.setOnClickListener(this);
         bnDiv.setOnClickListener(this);
         bnMul.setOnClickListener(this);
+
         bnResult.setOnClickListener(this);
+
+        bnCE.setOnClickListener(this);
         bnDel.setOnClickListener(this);
+
         bnDot.setOnClickListener(this);
+
         bnZero.setOnClickListener(this);
         bnOne.setOnClickListener(this);
         bnTwo.setOnClickListener(this);
@@ -81,7 +96,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         bnSeven.setOnClickListener(this);
         bnEight.setOnClickListener(this);
         bnNine.setOnClickListener(this);
-        bnCE.setOnClickListener(this);
     }
 
     private void resetDisplay(){
@@ -92,6 +106,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        hideActionBarAndForcePortraitMode();
         initalizeViews();
         setupButtons();
         resetDisplay();
@@ -118,12 +134,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return null;
     }
 
-
-
     private void handleNumberButtonClick(View view){
         if (returnString(view.getId()) != null){
-            if (isOperatorsClicked){
-                etDisplay.setText("");
+            if (isResultClicked){
+                resetDisplay();
+                appendToDisplay(returnString(view.getId()));
+                isResultClicked = false;
+                isOperatorsClicked = false;
+            }else if (isOperatorsClicked){
+                resetDisplay();
                 appendToDisplay(returnString(view.getId()));
                 isOperatorsClicked = false;
             }else {
@@ -151,75 +170,78 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return new BigDecimal(editText.getText().toString());
     }
 
+    private void returnOperator(View view){
+        switch (view.getId()){
+            case R.id.bnAdd:
+                operator = Calculator.Operator.Add;
+                break;
+            case R.id.bnSub:
+                operator = Calculator.Operator.Sub;
+                break;
+            case R.id.bnDiv:
+                operator = Calculator.Operator.Div;
+                break;
+            case R.id.bnMul:
+                operator = Calculator.Operator.Mul;
+                break;
+        }
+    }
+
     private void handleOperatorsButtonClick(View view){
         if (    view.getId() == R.id.bnAdd
                 || view.getId() == R.id.bnSub
                 || view.getId() == R.id.bnDiv
                 || view.getId() == R.id.bnMul){
-
-            switch (view.getId()){
-                case R.id.bnAdd:
-                    operator = Calculator.Operator.Add;
-                    break;
-                case R.id.bnSub:
-                    operator = Calculator.Operator.Sub;
-                    break;
-                case R.id.bnDiv:
-                    operator = Calculator.Operator.Div;
-                    break;
-                case R.id.bnMul:
-                    operator = Calculator.Operator.Mul;
-                    break;
-            }
-
+            returnOperator(view);
             try{
                 operand1 = getOperand(etDisplay);
                 isOperatorsClicked = true;
             }catch (NumberFormatException e){
                 e.printStackTrace();
             }
-
-            tvTest.setText(operand1 + " " + operator);
+            tvTest.setText(String.format("%s", operand1 + " " + operator.sign));
         }
     }
 
-
+    private void calculateResult(){
+        String result;
+        switch (operator){
+            case Add:
+                result = calculator.add(operand1, operand2).stripTrailingZeros().toPlainString();
+                break;
+            case Sub:
+                result = calculator.sub(operand1, operand2).stripTrailingZeros().toPlainString();
+                break;
+            case Div:
+                result = calculator.div(operand1, operand2).stripTrailingZeros().toPlainString();
+                break;
+            case Mul:
+                result = calculator.mul(operand1, operand2).stripTrailingZeros().toPlainString();
+                break;
+            default:
+                result = "Computational error";
+                break;
+        }
+        etDisplay.setText(String.format("%s", result));
+    }
 
     private void handleEqualButton(View view){
         if (operand1 != null && view.getId() == R.id.bnResult){
-
             try{
                 operand2 = getOperand(etDisplay);
+                isResultClicked = true;
             }catch (NumberFormatException e){
                 e.printStackTrace();
                 return;
             }
-
-            String result = "";
-            switch (operator){
-                case Add:
-                    result = calculator.add(operand1, operand2).toString();
-                    break;
-                case Sub:
-                    result = calculator.sub(operand1, operand2).toString();
-                    break;
-                case Div:
-                    try{
-                        result = calculator.div(operand1, operand2).toString();
-                    }catch (IllegalArgumentException e){
-                        e.printStackTrace();
-                        result = "divide by zero???";
-                    }
-                    break;
-                case Mul:
-                    result = calculator.mul(operand1, operand2).toString();
-                    break;
-                default:
-                    result = "Computational error";
-                    break;
+            try{
+                calculateResult();
+            }catch (IllegalArgumentException e){
+                e.printStackTrace();
+                etDisplay.setText(getResources().getText(R.string.error));
             }
-            etDisplay.setText(result);
-            tvTest.setText(operand1 + " " + operator + " " + operand2);
+            String text = "" + operand1 + " " + operator.sign + " " + operand2 + " = ";
+            tvTest.setText(String.format("%s", text));
         }
     }
 
