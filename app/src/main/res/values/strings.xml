@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">EnumCalculatorDemo</string>
+    <string name="placeholder">Enter a number</string>
+    <string name="bnAdd">+</string>
+    <string name="bnMinus">-</string>
+    <string name="bnDiv">:</string>
+    <string name="bnMul">x</string>
+    <string name="bnResult">=</string>
+    <string name="bnZero">0</string>
+    <string name="bnOne">1</string>
+    <string name="bnOne">1</string>
+    <string name="bnTwo">2</string>
+    <string name="bnThree">3</string>
+    <string name="bnFour">4</string>
+    <string name="bnFive">5</string>
+    <string name="bnSix">6</string>
+    <string name="bnDot">.</string>
+    <string name="bnSeven">7</string>
+    <string name="bnEight">8</string>
+    <string name="bnNine">9</string>
+    <string name="bnDel">Del</string>
+    <string name="empty" />
+</resources>
