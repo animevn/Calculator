@@ -3,6 +3,7 @@ package com.haanhgs.enumcalculatordemo;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -148,7 +149,46 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return null;
     }
 
-    private void switchBetweenFirstAndSecondOperandForTextHelper(){
+    private String getFirstChar(String string){
+        String result = "";
+        if (!TextUtils.isEmpty(string)){
+            result = string.substring(0, 1);
+        }
+        return result;
+    }
+
+    private boolean checkSignOfDisplay(){
+        String firstChar = getFirstChar(etDisplay.getText().toString());
+        return firstChar.equals("-");
+    }
+
+    private void removeMinusSignOffDisplay(){
+        if (!TextUtils.isEmpty(etDisplay.getText())){
+            etDisplay.getText().delete(0, 1);
+        }
+    }
+
+    private void addMinusSignToDisplay(){
+        if (TextUtils.isEmpty(etDisplay.getText())){
+            etDisplay.setText("-");
+        }else if (isOperatorsClicked){
+            etDisplay.setText("-");
+        }else {
+            etDisplay.setText(String.format("%s", "-" + etDisplay.getText().toString()));
+        }
+    }
+
+    private void handleSignButton(View view){
+        if (view.getId() == R.id.bnSign){
+            if (checkSignOfDisplay()){
+                removeMinusSignOffDisplay();
+            }else {
+                addMinusSignToDisplay();
+            }
+        }
+    }
+
+    private void setupTextHelperforOperands(){
         if (isFirstOperand){
             tvTest.setText(etDisplay.getText().toString());
         }else if (isSecondOperand){
@@ -165,13 +205,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 isResultClicked = false;
                 isOperatorsClicked = false;
             }else if (isOperatorsClicked){
-                resetDisplay();
-                appendToDisplay(returnString(view.getId()));
-                isOperatorsClicked = false;
+                if (etDisplay.getText().toString().equals("-")){
+                    appendToDisplay(returnString(view.getId()));
+                }else {
+                    resetDisplay();
+                    appendToDisplay(returnString(view.getId()));
+                    isOperatorsClicked = false;
+                }
+
             }else{
                 appendToDisplay(returnString(view.getId()));
             }
-            switchBetweenFirstAndSecondOperandForTextHelper();
+            setupTextHelperforOperands();
         }
     }
 
@@ -189,7 +234,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void handleCeButtonClick(View view){
         if (view.getId() == R.id.bnCE) {
             resetDisplay();
-            switchBetweenFirstAndSecondOperandForTextHelper();
+            setupTextHelperforOperands();
         }
     }
 
@@ -278,6 +323,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
+        handleSignButton(view);
         handleNumberButtonClick(view);
         handleDelButtonClick(view);
         handleCeButtonClick(view);
