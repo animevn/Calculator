@@ -17,6 +17,7 @@
     <string name="bnSeven">7</string>
     <string name="bnEight">8</string>
     <string name="bnNine">9</string>
-    <string name="bnDel">Del</string>
+    <string name="bnDel">DE</string>
     <string name="empty" />
+    <string name="bnCE">CE</string>
 </resources>

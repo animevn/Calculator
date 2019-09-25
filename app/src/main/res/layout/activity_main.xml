@@ -10,10 +10,10 @@
         android:id="@+id/etDisplay"
         android:layout_width="349dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/border"
+        android:cursorVisible="false"
         android:ems="10"
-        android:hint="@string/placeholder"
         android:inputType="numberDecimal"
         android:singleLine="true"
         android:textAlignment="textEnd"
@@ -21,7 +21,7 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/bnMul"
         app:layout_constraintStart_toStartOf="@+id/bnAdd"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTest"
         tools:ignore="Autofill" />
 
     <Button
@@ -129,26 +129,11 @@
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="@+id/bnEight"
         app:layout_constraintDimensionRatio="1"
-        app:layout_constraintEnd_toStartOf="@+id/bnEmpty2"
+        app:layout_constraintEnd_toStartOf="@+id/bnCE"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/bnEight"
         app:layout_constraintTop_toTopOf="@+id/bnEight" />
 
-    <Button
-        android:id="@+id/bnEmpty2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
-        android:background="@drawable/border"
-        android:text="@string/empty"
-        android:textSize="30sp"
-        app:layout_constraintBottom_toBottomOf="@+id/bnNine"
-        app:layout_constraintDimensionRatio="1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/bnNine"
-        app:layout_constraintTop_toTopOf="@+id/bnNine" />
 
     <Button
         android:id="@+id/bnEmpty1"
@@ -233,15 +218,33 @@
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
         android:background="@drawable/border"
+        android:backgroundTint="@color/RED"
         android:text="@string/bnDel"
-        android:textSize="18sp"
-        android:textStyle="bold"
+        android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="@+id/bnEmpty3"
         app:layout_constraintDimensionRatio="1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/bnEmpty3"
         app:layout_constraintTop_toTopOf="@+id/bnEmpty3" />
+
+    <Button
+        android:id="@+id/bnCE"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/border"
+        android:backgroundTint="@color/CYAN"
+        android:text="@string/bnCE"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="@+id/bnNine"
+        app:layout_constraintDimensionRatio="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/bnNine"
+        app:layout_constraintTop_toTopOf="@+id/bnNine" />
+
 
     <Button
         android:id="@+id/bnOne"
@@ -337,4 +340,17 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/bnThree"
         app:layout_constraintTop_toTopOf="@+id/bnThree" />
+
+    <TextView
+        android:id="@+id/tvTest"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="32dp"
+        android:text="TextView"
+        android:textAlignment="textEnd"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
