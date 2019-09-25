@@ -191,19 +191,20 @@
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="@+id/bnZero"
         app:layout_constraintDimensionRatio="1"
-        app:layout_constraintEnd_toStartOf="@+id/bnEmpty3"
+        app:layout_constraintEnd_toStartOf="@+id/bnSign"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/bnZero"
         app:layout_constraintTop_toTopOf="@+id/bnZero" />
 
     <Button
-        android:id="@+id/bnEmpty3"
+        android:id="@+id/bnSign"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:background="@drawable/border"
-        android:text="@string/empty"
+        android:text="@string/bnSign"
         android:textSize="30sp"
+        android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="@+id/bnDot"
         app:layout_constraintDimensionRatio="1"
         app:layout_constraintEnd_toStartOf="@+id/bnDel"
@@ -221,12 +222,12 @@
         android:backgroundTint="@color/RED"
         android:text="@string/bnDel"
         android:textSize="30sp"
-        app:layout_constraintBottom_toBottomOf="@+id/bnEmpty3"
+        app:layout_constraintBottom_toBottomOf="@+id/bnSign"
         app:layout_constraintDimensionRatio="1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/bnEmpty3"
-        app:layout_constraintTop_toTopOf="@+id/bnEmpty3" />
+        app:layout_constraintStart_toEndOf="@+id/bnSign"
+        app:layout_constraintTop_toTopOf="@+id/bnSign" />
 
     <Button
         android:id="@+id/bnCE"

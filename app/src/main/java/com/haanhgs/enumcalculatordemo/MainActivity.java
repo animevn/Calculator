@@ -13,22 +13,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private BigDecimal operand1;
     private BigDecimal operand2;
-    private boolean isNumbersClicked = false;
-    private boolean isOperatorsClicked = false;
-    private boolean isResultClicked = false;
+
     private Calculator.Operator operator;
     private Calculator calculator = new Calculator();
 
+    private boolean isOperatorsClicked = false;
+    private boolean isResultClicked = false;
+    private boolean isFirstOperand = true;
+    private boolean isSecondOperand = false;
+
     private TextView tvTest;
     private EditText etDisplay;
+
     private Button bnAdd;
     private Button bnSub;
     private Button bnDiv;
     private Button bnMul;
+    private Button bnResult;
     private Button bnOne;
     private Button bnTwo;
     private Button bnThree;
-    private Button bnResult;
     private Button bnFour;
     private Button bnFive;
     private Button bnSix;
@@ -36,7 +40,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button bnEight;
     private Button bnNine;
     private Button bnZero;
+
     private Button bnDot;
+    private Button bnSign;
+
     private Button bnDel;
     private Button bnCE;
 
@@ -59,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         bnCE =findViewById(R.id.bnCE);
         bnDel = findViewById(R.id.bnDel);
 
+        bnSign = findViewById(R.id.bnSign);
         bnDot = findViewById(R.id.bnDot);
 
         bnZero = findViewById(R.id.bnZero);
@@ -85,6 +93,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         bnDel.setOnClickListener(this);
 
         bnDot.setOnClickListener(this);
+        bnSign.setOnClickListener(this);
 
         bnZero.setOnClickListener(this);
         bnOne.setOnClickListener(this);
@@ -100,6 +109,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void resetDisplay(){
         etDisplay.setText("");
+    }
+
+    private void resetTextHelper(){
+        tvTest.setText("");
     }
 
     @Override
@@ -129,9 +142,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.bnSeven: return "7";
             case R.id.bnEight: return "8";
             case R.id.bnNine: return "9";
+
             case R.id.bnDot: return ".";
         }
         return null;
+    }
+
+    private void switchBetweenFirstAndSecondOperandForTextHelper(){
+        if (isFirstOperand){
+            tvTest.setText(etDisplay.getText().toString());
+        }else if (isSecondOperand){
+            String text = operand1 + " " + operator.sign + " " + etDisplay.getText().toString();
+            tvTest.setText(String.format("%s", text));
+        }
     }
 
     private void handleNumberButtonClick(View view){
@@ -145,9 +168,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 resetDisplay();
                 appendToDisplay(returnString(view.getId()));
                 isOperatorsClicked = false;
-            }else {
+            }else{
                 appendToDisplay(returnString(view.getId()));
             }
+            switchBetweenFirstAndSecondOperandForTextHelper();
         }
     }
 
@@ -163,7 +187,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void handleCeButtonClick(View view){
-        if (view.getId() == R.id.bnCE) resetDisplay();
+        if (view.getId() == R.id.bnCE) {
+            resetDisplay();
+            switchBetweenFirstAndSecondOperandForTextHelper();
+        }
     }
 
     private static BigDecimal getOperand(EditText editText){
@@ -196,6 +223,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             try{
                 operand1 = getOperand(etDisplay);
                 isOperatorsClicked = true;
+                isFirstOperand = false;
+                isSecondOperand = true;
             }catch (NumberFormatException e){
                 e.printStackTrace();
             }
@@ -230,6 +259,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             try{
                 operand2 = getOperand(etDisplay);
                 isResultClicked = true;
+                isFirstOperand = true;
+                isSecondOperand = false;
             }catch (NumberFormatException e){
                 e.printStackTrace();
                 return;
