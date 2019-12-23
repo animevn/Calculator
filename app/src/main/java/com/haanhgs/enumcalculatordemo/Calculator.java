@@ -8,7 +8,7 @@ public class Calculator {
     public enum Operator{
         Add("+"), Sub("-"), Div(":"), Mul("x");
 
-        public String sign;
+        public final String sign;
 
         Operator(String sign){
             this.sign = sign;
@@ -33,12 +33,4 @@ public class Calculator {
         }
         return operand1.divide(operand2, 9, RoundingMode.HALF_UP);
     }
-
-
-
-
-
-
-
-
 }

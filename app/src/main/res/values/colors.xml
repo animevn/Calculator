@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
-    <color name="YELLOW">#ffff00</color>
-    <color name="MAGENTA">#ff00ff</color>
-    <color name="GREEN">#008000</color>
-    <color name="BLUE">#0000ff</color>
+    <color name="YELLOW" tools:keep="@color/YELLOW">#ffff00</color>
+    <color name="MAGENTA" tools:keep="@color/MAGENTA">#ff00ff</color>
+    <color name="GREEN" tools:keep="@color/GREEN">#008000</color>
+    <color name="BLUE" tools:keep="@color/BLUE">#0000ff</color>
     <color name="RED">#ff0000</color>
-    <color name="WHITE">#FFFFFF</color>
-    <color name="SILVER">#C0C0C0</color>
-    <color name="GRAY">#808080</color>
-    <color name="BLACK">#000000</color>
-    <color name="MAROON">#800000</color>
-    <color name="OLIVE">#808000</color>
-    <color name="LIME">#00FF00</color>
+    <color name="WHITE" tools:keep="@color/WHITE">#FFFFFF</color>
+    <color name="SILVER" tools:keep="@color/SILVER">#C0C0C0</color>
+    <color name="GRAY" tools:keep="@color/GRAY">#808080</color>
+    <color name="BLACK" tools:keep="@color/BLACK">#000000</color>
+    <color name="MAROON" tools:keep="@color/MAROON">#800000</color>
+    <color name="OLIVE" tools:keep="@color/OLIVE">#808000</color>
+    <color name="LIME" tools:keep="@color/LIME">#00FF00</color>
     <color name="CYAN">#00ffff</color>
-    <color name="NAVY">#000080</color>
-    <color name="FUSCHIA">#FF00FF</color>
-    <color name="PURPLE">#800080</color>
-    <color name="ORANGE">#FFA500</color>
-    <color name="BROWN">#A52A2A</color>
-    <color name="AZURE">#F0FFFF</color>
-    <color name="GOLD">#ffd700</color>
+    <color name="NAVY" tools:keep="@color/NAVY">#000080</color>
+    <color name="FUSCHIA" tools:keep="@color/FUSCHIA">#FF00FF</color>
+    <color name="PURPLE" tools:keep="@color/PURPLE">#800080</color>
+    <color name="ORANGE" tools:keep="@color/ORANGE">#FFA500</color>
+    <color name="BROWN" tools:keep="@color/BROWN">#A52A2A</color>
+    <color name="AZURE" tools:keep="@color/AZURE">#F0FFFF</color>
+    <color name="GOLD" tools:keep="@color/GOLD">#ffd700</color>
 </resources>
