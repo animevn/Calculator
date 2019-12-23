@@ -58,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button bnResult;
     @BindView(R.id.tvTest)
     TextView tvTest;
+
     private BigDecimal operand1;
     private BigDecimal operand2;
 
