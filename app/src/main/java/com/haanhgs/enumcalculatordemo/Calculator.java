@@ -1,12 +1,23 @@
 package com.haanhgs.enumcalculatordemo;
 
+import android.app.Activity;
+import android.content.pm.ActivityInfo;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.EditText;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
+import static com.haanhgs.enumcalculatordemo.Operator.Add;
+import static com.haanhgs.enumcalculatordemo.Operator.Div;
+import static com.haanhgs.enumcalculatordemo.Operator.Mul;
+import static com.haanhgs.enumcalculatordemo.Operator.Sub;
+
 public class Calculator {
+
+    public static void setPortraitMode(Activity activity){
+        activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+    }
 
     public static BigDecimal add(BigDecimal operand1, BigDecimal operand2){
         return operand1.add(operand2);
@@ -73,6 +84,10 @@ public class Calculator {
         return new BigDecimal(editText.getText().toString());
     }
 
+    public static void appendToDisplay(String string, EditText etDisplay) {
+        etDisplay.append(string);
+    }
+
     public static void calculateResult(Operator operator, BigDecimal operand1,
                                        BigDecimal operand2, EditText etDisplay) {
         String result;
@@ -94,5 +109,13 @@ public class Calculator {
                 break;
         }
         etDisplay.setText(String.format("%s", result));
+    }
+
+    public static Operator returnOperator(View view) {
+        if (view.getId() == R.id.bnAdd) return Add;
+        if (view.getId() == R.id.bnSub) return Sub;
+        if (view.getId() == R.id.bnDiv) return Div;
+        if (view.getId() == R.id.bnMul) return Mul;
+        return null;
     }
 }
