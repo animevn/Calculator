@@ -173,26 +173,26 @@ public class Repo {
     }
 
     public void clickSqrt(){
-        String stringMain = calculator.getStringMain();
-        if (getBigDec(stringMain).compareTo(BigDecimal.ZERO) >= 0){
-            double sqrt = Math.sqrt(Double.valueOf(stringMain));
+        String strMain = calculator.getStringMain();
+        if (!TextUtils.isEmpty(strMain) && getBigDec(strMain).compareTo(BigDecimal.ZERO) >= 0){
+            double sqrt = Math.sqrt(Double.valueOf(strMain));
             BigDecimal sqrtBigDec = BigDecimal.valueOf(sqrt).round(MathContext.DECIMAL32);
             if (calculator.getState() == State.Equal){
                 calculator.setOperand1(sqrtBigDec);
                 calculator.setStringMain(String.valueOf(sqrtBigDec));
                 calculator.setStringSecond(String.valueOf(sqrtBigDec));
+                calculator.setState(State.Op1);
             }else if (calculator.getState() == State.Op1){
-                calculator.setResult(sqrtBigDec);
+                calculator.setOperand1(sqrtBigDec);
                 calculator.setStringMain(String.valueOf(sqrtBigDec));
                 String secondStr = calculator.getStringSecond();
-                String subString = secondStr.substring(0, secondStr.length() - stringMain.length());
+                String subString = secondStr.substring(0, secondStr.length() - strMain.length());
                 calculator.setStringSecond(subString + String.valueOf(sqrtBigDec));
-                calculator.setState(State.Equal);
             }else if (calculator.getState() == State.Op2){
                 calculator.setOperand2(sqrtBigDec);
                 calculator.setStringMain(String.valueOf(sqrtBigDec));
                 String secondStr = calculator.getStringSecond();
-                String subString = secondStr.substring(0, secondStr.length() - stringMain.length());
+                String subString = secondStr.substring(0, secondStr.length() - strMain.length());
                 calculator.setStringSecond(subString + String.valueOf(sqrtBigDec));
             }
         }
@@ -222,13 +222,13 @@ public class Repo {
     }
 
     private void div(){
-        if (!calculator.getOperand2().equals(new BigDecimal(0))){
+        if (!String.valueOf(calculator.getOperand2()).equals("0")){
             BigDecimal bigDecimal = calculator.getOperand1()
                     .divide(calculator.getOperand2(), 9, RoundingMode.HALF_UP);
             String resultString = bigDecimal.stripTrailingZeros().toPlainString();
             calculator.setResult(new BigDecimal(resultString));
         }else {
-            calculator.setState(State.Error);
+            calculator.setResult(null);
         }
     }
 
@@ -311,11 +311,13 @@ public class Repo {
             if (calculator.getState() == State.Op2){
                 calculator.setOperand2(getBigDec(string));
                 doOperator(calculator.getOperator());
-                calculator.setStringMain(String.valueOf(calculator.getResult()));
-                calculator.setStringSecond(calculator.getStringSecond() + " = "
-                        + String.valueOf(calculator.getResult()));
-                calculator.setState(State.Equal);
-                liveData.setValue(calculator);
+                if (calculator.getResult() != null){
+                    calculator.setStringMain(String.valueOf(calculator.getResult()));
+                    calculator.setStringSecond(calculator.getStringSecond() + " = "
+                            + String.valueOf(calculator.getResult()));
+                    calculator.setState(State.Equal);
+                    liveData.setValue(calculator);
+                }
             }
         }
     }
