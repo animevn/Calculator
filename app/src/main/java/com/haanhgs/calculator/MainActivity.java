@@ -2,7 +2,9 @@ package com.haanhgs.calculator;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Surface;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 import java.math.BigDecimal;
@@ -85,6 +87,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void hideActionBar(){
         if (getSupportActionBar() != null) getSupportActionBar().hide();
+        int rotation = getWindowManager().getDefaultDisplay().getRotation();
+        if (rotation == Surface.ROTATION_90 || rotation == Surface.ROTATION_270){
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                    WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        }
     }
 
 
@@ -93,7 +100,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        setPortraitMode(this);
         hideActionBar();
         resetDisplay();
         resetTextHelper();

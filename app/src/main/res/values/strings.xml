@@ -20,6 +20,7 @@
     <string name="bnDel">DE</string>
     <string name="bnSquare">√</string>
     <string name="bnCE">CE</string>
-    <string name="error">Divide by zero?</string>
     <string name="bnSign">+/-</string>
+    <string name="bnEmpty"/>
+    <string name="error">Divide by zero?</string>
 </resources>
