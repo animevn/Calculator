@@ -10,9 +10,8 @@ public class Calculator {
     private Operator operator = null;
     private BigDecimal operand2 = null;
     private BigDecimal result = null;
+    private State state = State.Op1;
     private boolean calculation = false;
-    private boolean firstOperand = true;
-    private boolean secondOperand = false;
 
     public String getStringMain() {
         return stringMain;
@@ -70,19 +69,11 @@ public class Calculator {
         this.calculation = calculation;
     }
 
-    public boolean isFirstOperand() {
-        return firstOperand;
+    public State getState() {
+        return state;
     }
 
-    public void setFirstOperand(boolean firstOperand) {
-        this.firstOperand = firstOperand;
-    }
-
-    public boolean isSecondOperand() {
-        return secondOperand;
-    }
-
-    public void setSecondOperand(boolean secondOperand) {
-        this.secondOperand = secondOperand;
+    public void setState(State state) {
+        this.state = state;
     }
 }

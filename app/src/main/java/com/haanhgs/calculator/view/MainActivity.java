@@ -69,15 +69,15 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.bnSquare)
     Button bnSquare;
 
-
-    private BigDecimal operand1;
-    private BigDecimal operand2;
-    private Operator operator;
-
-    private boolean isOperatorsClicked = false;
-    private boolean isResultClicked = false;
-    private boolean isFirstOperand = true;
-    private boolean isSecondOperand = false;
+//
+//    private BigDecimal operand1;
+//    private BigDecimal operand2;
+//    private Operator operator;
+//
+//    private boolean isOperatorsClicked = false;
+//    private boolean isResultClicked = false;
+//    private boolean isFirstOperand = true;
+//    private boolean isSecondOperand = false;
 
     private CalculatorViewModel viewModel;
 
@@ -150,20 +150,27 @@ public class MainActivity extends AppCompatActivity {
             case R.id.bnDot:
                 break;
             case R.id.bnAdd:
+                viewModel.clickAdd();
                 break;
             case R.id.bnSub:
+                viewModel.clickSub();
                 break;
             case R.id.bnDiv:
+                viewModel.clickDiv();
                 break;
             case R.id.bnMul:
+                viewModel.clickMul();
                 break;
             case R.id.bnSquare:
                 break;
             case R.id.bnResult:
+                viewModel.clickEqual();
                 break;
             case R.id.bnDel:
+                viewModel.clickDelete();
                 break;
             case R.id.bnCE:
+                viewModel.clickCancel();
                 break;
 
         }

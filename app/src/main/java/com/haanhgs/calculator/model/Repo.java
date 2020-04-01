@@ -1,13 +1,11 @@
 package com.haanhgs.calculator.model;
 
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.TextView;
-import com.haanhgs.calculator.R;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import androidx.lifecycle.MutableLiveData;
-
 import static com.haanhgs.calculator.model.Operator.Add;
 import static com.haanhgs.calculator.model.Operator.Div;
 import static com.haanhgs.calculator.model.Operator.Mul;
@@ -30,135 +28,215 @@ public class Repo {
         return calculator.getStringMain().length() < Constants.MAIN_LIMIT;
     }
 
+    private void setStateForNumbersAfterOperator(){
+        if (calculator.getState() == State.Operator) calculator.setState(State.Op2);
+    }
+
+    public void clickDelete(){
+        calculator = new Calculator();
+        liveData.setValue(calculator);
+    }
+
+    public void clickCancel(){
+        String stringMain = calculator.getStringMain();
+        String stringSecond = calculator.getStringSecond();
+
+        if (calculator.getState() == State.Equal){
+            clickDelete();
+        }else if (calculator.getState() == State.Operator){
+            calculator.setState(State.Op1);
+            calculator.setStringSecond(stringSecond.substring(0, stringSecond.length() - 3));
+            calculator.setStringMain(String.valueOf(calculator.getOperand1()));
+        }else {
+            if (!TextUtils.isEmpty(stringMain)){
+                calculator.setStringMain(stringMain.substring(0, stringMain.length() - 1));
+                calculator.setStringSecond(stringSecond.substring(0, stringSecond.length() - 1));
+            }
+        }
+        liveData.setValue(calculator);
+    }
+
     public void clickZero(){
-        if (!TextUtils.isEmpty(calculator.getStringMain()) && limitMain()){
+        if (!TextUtils.isEmpty(calculator.getStringMain()) && limitMain()
+                && calculator.getState() != State.Equal){
             calculator.setStringMain(calculator.getStringMain() + "0");
+            calculator.setStringSecond(calculator.getStringSecond() + "0");
+            setStateForNumbersAfterOperator();
+            liveData.setValue(calculator);
+        }
+    }
+
+    private void clickNumber(String number){
+        if (limitMain()){
+            if (calculator.getState() == State.Equal) clickDelete();
+            calculator.setStringMain(calculator.getStringMain() + number);
+            calculator.setStringSecond(calculator.getStringSecond() + number);
+            if (calculator.getState() == State.Operator) calculator.setState(State.Op2);
             liveData.setValue(calculator);
         }
     }
 
 
     public void clickOne(){
-        if (limitMain()){
-            calculator.setStringMain(calculator.getStringMain() + "1");
-            liveData.setValue(calculator);
-        }
+        clickNumber("1");
 
     }
 
     public void clickTwo(){
-        if (limitMain()){
-            calculator.setStringMain(calculator.getStringMain() + "2");
-            liveData.setValue(calculator);
-        }
-
+        clickNumber("2");
     }
 
     public void clickThree(){
-        if (limitMain()){
-            calculator.setStringMain(calculator.getStringMain() + "3");
-            liveData.setValue(calculator);
-        }
+        clickNumber("3");
     }
 
     public void clickFour(){
-        if (limitMain()){
-            calculator.setStringMain(calculator.getStringMain() + "4");
-            liveData.setValue(calculator);
-        }
+        clickNumber("4");
     }
 
     public void clickFive(){
-        if (limitMain()){
-            calculator.setStringMain(calculator.getStringMain() + "5");
-            liveData.setValue(calculator);
-        }
-
+        clickNumber("5");
     }
 
     public void clickSix(){
-        if (limitMain()){
-            calculator.setStringMain(calculator.getStringMain() + "6");
-            liveData.setValue(calculator);
-        }
-
+        clickNumber("6");
     }
 
     public void clickSeven(){
-        if (limitMain()){
-            calculator.setStringMain(calculator.getStringMain() + "7");
-            liveData.setValue(calculator);
-        }
-
+        clickNumber("7");
     }
 
     public void clickEight(){
-        if (limitMain()){
-            calculator.setStringMain(calculator.getStringMain() + "8");
-            liveData.setValue(calculator);
-        }
-
+        clickNumber("8");
     }
 
     public void clickNine(){
-        if (limitMain()){
-            calculator.setStringMain(calculator.getStringMain() + "9");
+        clickNumber("9");
+    }
+
+    private BigDecimal getOperand(String string) {
+        return new BigDecimal(string);
+    }
+
+    private void add(){
+        BigDecimal bigDecimal = calculator.getOperand1().add(calculator.getOperand2());
+        String resultString = bigDecimal.stripTrailingZeros().toPlainString();
+        calculator.setResult(new BigDecimal(resultString));
+    }
+
+    private void sub(){
+        BigDecimal bigDecimal = calculator.getOperand1().subtract(calculator.getOperand2());
+        String resultString = bigDecimal.stripTrailingZeros().toPlainString();
+        calculator.setResult(new BigDecimal(resultString));
+    }
+
+    private void mul(){
+        BigDecimal bigDecimal = calculator.getOperand1().multiply(calculator.getOperand2());
+        String resultString = bigDecimal.stripTrailingZeros().toPlainString();
+        calculator.setResult(new BigDecimal(resultString));
+    }
+
+    private void div(){
+        if (!calculator.getOperand2().equals(new BigDecimal(0))){
+            BigDecimal bigDecimal = calculator.getOperand1()
+                    .divide(calculator.getOperand2(), 9, RoundingMode.HALF_UP);
+            String resultString = bigDecimal.stripTrailingZeros().toPlainString();
+            calculator.setResult(new BigDecimal(resultString));
+        }else {
+            calculator.setState(State.Error);
+        }
+    }
+
+    private void doOperator(Operator operator){
+        switch (operator){
+            case Add:
+                add();
+                break;
+            case Sub:
+                sub();
+                break;
+            case Div:
+                div();
+                break;
+            case Mul:
+                mul();
+                break;
+        }
+    }
+
+    private String getOpSign(Operator operator){
+        if (operator == Add) return  " + ";
+        if (operator == Sub) return  " - ";
+        if (operator == Div) return  " : ";
+        if (operator == Mul) return  " x ";
+        return "";
+    }
+
+    private void clickOperator(Operator operator){
+        String string = calculator.getStringMain();
+        if (!TextUtils.isEmpty(string)){
+            if (calculator.getState() == State.Op1){
+                calculator.setOperand1(getOperand(string));
+                calculator.setStringSecond(calculator.getStringSecond() + getOpSign(operator));
+                calculator.setStringMain("");
+                calculator.setOperator(operator);
+                calculator.setState(State.Operator);
+            }else if (calculator.getState() == State.Operator){
+                calculator.setOperator(operator);
+                calculator.setStringSecond(calculator.getStringSecond() + getOpSign(operator));
+            }else if (calculator.getState() == State.Op2){
+                calculator.setOperand2(getOperand(string));
+                doOperator(calculator.getOperator());
+                calculator.setStringSecond(calculator.getStringSecond() + getOpSign(operator));
+                calculator.setStringMain("");
+                calculator.setOperand1(calculator.getResult());
+                calculator.setOperator(operator);
+                calculator.setState(State.Operator);
+            }else if (calculator.getState() == State.Equal){
+                calculator.setOperand1(calculator.getResult());
+                calculator.setStringSecond(String.valueOf(calculator.getResult())
+                        + getOpSign(operator));
+                calculator.setStringMain("");
+                calculator.setOperator(operator);
+                calculator.setState(State.Operator);
+            }
             liveData.setValue(calculator);
         }
+    }
 
+    public void clickAdd(){
+       clickOperator(Add);
+    }
+
+    public void clickSub(){
+        clickOperator(Sub);
+    }
+
+    public void clickDiv(){
+        clickOperator(Div);
+    }
+
+    public void clickMul(){
+        clickOperator(Mul);
     }
 
 
-
-
-
-    public static BigDecimal add(BigDecimal operand1, BigDecimal operand2){
-        return operand1.add(operand2);
-    }
-
-    public static BigDecimal sub(BigDecimal operand1, BigDecimal operand2){
-        return operand1.subtract(operand2);
-    }
-
-    public static BigDecimal mul(BigDecimal operand1, BigDecimal operand2){
-        return operand1.multiply(operand2);
-    }
-
-    public static BigDecimal div(BigDecimal operand1, BigDecimal operand2){
-        if (operand2.equals(new BigDecimal("0"))){
-            throw new IllegalArgumentException("Cannot divide by zero");
+    public void clickEqual(){
+        String string = calculator.getStringMain();
+        if (!TextUtils.isEmpty(string)){
+            if (calculator.getState() == State.Op2){
+                calculator.setOperand2(getOperand(string));
+                doOperator(calculator.getOperator());
+                calculator.setStringMain(String.valueOf(calculator.getResult()));
+                calculator.setStringSecond(calculator.getStringSecond() + " = "
+                        + String.valueOf(calculator.getResult()));
+                calculator.setState(State.Equal);
+                liveData.setValue(calculator);
+            }
         }
-        return operand1.divide(operand2, 9, RoundingMode.HALF_UP);
     }
 
-    public static String returnString(int bnId){
-        switch (bnId) {
-            case R.id.bnZero:
-                return "0";
-            case R.id.bnOne:
-                return "1";
-            case R.id.bnTwo:
-                return "2";
-            case R.id.bnThree:
-                return "3";
-            case R.id.bnFour:
-                return "4";
-            case R.id.bnFive:
-                return "5";
-            case R.id.bnSix:
-                return "6";
-            case R.id.bnSeven:
-                return "7";
-            case R.id.bnEight:
-                return "8";
-            case R.id.bnNine:
-                return "9";
 
-            case R.id.bnDot:
-                return ".";
-        }
-        return null;
-    }
 
     private static String getFirstChar(String string) {
         String result = "";
@@ -173,42 +251,4 @@ public class Repo {
         return firstChar.equals("-");
     }
 
-    public static BigDecimal getOperand(TextView editText) {
-        return new BigDecimal(editText.getText().toString());
-    }
-
-    public static void appendToDisplay(String string, TextView etDisplay) {
-        etDisplay.append(string);
-    }
-
-    public static void calculateResult(Operator operator, BigDecimal operand1,
-                                       BigDecimal operand2, TextView etDisplay) {
-        String result;
-        switch (operator) {
-            case Add:
-                result = add(operand1, operand2).stripTrailingZeros().toPlainString();
-                break;
-            case Sub:
-                result = sub(operand1, operand2).stripTrailingZeros().toPlainString();
-                break;
-            case Div:
-                result = div(operand1, operand2).stripTrailingZeros().toPlainString();
-                break;
-            case Mul:
-                result = mul(operand1, operand2).stripTrailingZeros().toPlainString();
-                break;
-            default:
-                result = "Computational error";
-                break;
-        }
-        etDisplay.setText(String.format("%s", result));
-    }
-
-    public static Operator returnOperator(View view) {
-        if (view.getId() == R.id.bnAdd) return Add;
-        if (view.getId() == R.id.bnSub) return Sub;
-        if (view.getId() == R.id.bnDiv) return Div;
-        if (view.getId() == R.id.bnMul) return Mul;
-        return null;
-    }
 }

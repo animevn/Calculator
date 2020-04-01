@@ -54,4 +54,32 @@ public class CalculatorViewModel extends ViewModel {
         repo.clickZero();
     }
 
+    public void clickAdd(){
+        repo.clickAdd();
+    }
+
+    public void clickSub(){
+        repo.clickSub();
+    }
+
+    public void clickDiv(){
+        repo.clickDiv();
+    }
+
+    public void clickMul(){
+        repo.clickMul();
+    }
+
+    public void clickDelete(){
+        repo.clickDelete();
+    }
+
+    public void clickCancel(){
+        repo.clickCancel();
+    }
+
+    public void clickEqual(){
+        repo.clickEqual();
+    }
+
 }
