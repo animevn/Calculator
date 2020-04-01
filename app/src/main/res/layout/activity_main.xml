@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".view.MainActivity">
 
     <TextView
         android:id="@+id/tvDisplay"
@@ -19,7 +19,7 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/bnMul"
         app:layout_constraintStart_toStartOf="@+id/bnAdd"
-        app:layout_constraintTop_toBottomOf="@+id/tvTest"
+        app:layout_constraintTop_toBottomOf="@+id/tvSecond"
         tools:ignore="Autofill,LabelFor" />
 
     <Button
@@ -341,7 +341,7 @@
         app:layout_constraintTop_toTopOf="@+id/bnThree" />
 
     <TextView
-        android:id="@+id/tvTest"
+        android:id="@+id/tvSecond"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"

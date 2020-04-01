@@ -1,24 +1,116 @@
-package com.haanhgs.calculator;
+package com.haanhgs.calculator.model;
 
-import android.app.Activity;
-import android.content.pm.ActivityInfo;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
-
+import com.haanhgs.calculator.R;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import static com.haanhgs.calculator.Operator.Add;
-import static com.haanhgs.calculator.Operator.Div;
-import static com.haanhgs.calculator.Operator.Mul;
-import static com.haanhgs.calculator.Operator.Sub;
+import androidx.lifecycle.MutableLiveData;
 
-public class Calculator {
+import static com.haanhgs.calculator.model.Operator.Add;
+import static com.haanhgs.calculator.model.Operator.Div;
+import static com.haanhgs.calculator.model.Operator.Mul;
+import static com.haanhgs.calculator.model.Operator.Sub;
 
-    public static void setPortraitMode(Activity activity){
-        activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+public class Repo {
+
+    private Calculator calculator = new Calculator();
+    private MutableLiveData<Calculator> liveData = new MutableLiveData<>();
+
+    public Repo() {
+        liveData.setValue(calculator);
     }
+
+    public MutableLiveData<Calculator> getLiveData() {
+        return liveData;
+    }
+
+    private boolean limitMain(){
+        return calculator.getStringMain().length() < Constants.MAIN_LIMIT;
+    }
+
+    public void clickZero(){
+        if (!TextUtils.isEmpty(calculator.getStringMain()) && limitMain()){
+            calculator.setStringMain(calculator.getStringMain() + "0");
+            liveData.setValue(calculator);
+        }
+    }
+
+
+    public void clickOne(){
+        if (limitMain()){
+            calculator.setStringMain(calculator.getStringMain() + "1");
+            liveData.setValue(calculator);
+        }
+
+    }
+
+    public void clickTwo(){
+        if (limitMain()){
+            calculator.setStringMain(calculator.getStringMain() + "2");
+            liveData.setValue(calculator);
+        }
+
+    }
+
+    public void clickThree(){
+        if (limitMain()){
+            calculator.setStringMain(calculator.getStringMain() + "3");
+            liveData.setValue(calculator);
+        }
+    }
+
+    public void clickFour(){
+        if (limitMain()){
+            calculator.setStringMain(calculator.getStringMain() + "4");
+            liveData.setValue(calculator);
+        }
+    }
+
+    public void clickFive(){
+        if (limitMain()){
+            calculator.setStringMain(calculator.getStringMain() + "5");
+            liveData.setValue(calculator);
+        }
+
+    }
+
+    public void clickSix(){
+        if (limitMain()){
+            calculator.setStringMain(calculator.getStringMain() + "6");
+            liveData.setValue(calculator);
+        }
+
+    }
+
+    public void clickSeven(){
+        if (limitMain()){
+            calculator.setStringMain(calculator.getStringMain() + "7");
+            liveData.setValue(calculator);
+        }
+
+    }
+
+    public void clickEight(){
+        if (limitMain()){
+            calculator.setStringMain(calculator.getStringMain() + "8");
+            liveData.setValue(calculator);
+        }
+
+    }
+
+    public void clickNine(){
+        if (limitMain()){
+            calculator.setStringMain(calculator.getStringMain() + "9");
+            liveData.setValue(calculator);
+        }
+
+    }
+
+
+
+
 
     public static BigDecimal add(BigDecimal operand1, BigDecimal operand2){
         return operand1.add(operand2);
