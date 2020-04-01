@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import java.math.BigDecimal;
 import androidx.annotation.Nullable;
@@ -22,8 +21,8 @@ import static com.haanhgs.calculator.Calculator.setPortraitMode;
 
 public class MainActivity extends AppCompatActivity {
 
-    @BindView(R.id.etDisplay)
-    EditText etDisplay;
+    @BindView(R.id.tvDisplay)
+    TextView tvDisplay;
     @BindView(R.id.bnAdd)
     Button bnAdd;
     @BindView(R.id.bnZero)
@@ -38,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     Button bnEight;
     @BindView(R.id.bnNine)
     Button bnNine;
-    @BindView(R.id.bnEmpty1)
+    @BindView(R.id.bnSquare)
     Button bnEmpty1;
     @BindView(R.id.bnFive)
     Button bnFive;
@@ -77,12 +76,17 @@ public class MainActivity extends AppCompatActivity {
     private boolean isSecondOperand = false;
 
     private void resetDisplay() {
-        etDisplay.setText("");
+        tvDisplay.setText("");
     }
 
     private void resetTextHelper() {
         tvTest.setText("");
     }
+
+    private void hideActionBar(){
+        if (getSupportActionBar() != null) getSupportActionBar().hide();
+    }
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -90,29 +94,31 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         setPortraitMode(this);
+        hideActionBar();
         resetDisplay();
         resetTextHelper();
     }
 
     private void removeMinusSignOffDisplay() {
-        if (!TextUtils.isEmpty(etDisplay.getText())) {
-            etDisplay.getText().delete(0, 1);
+        if (!TextUtils.isEmpty(tvDisplay.getText())) {
+            String string = tvDisplay.getText().toString();
+            tvDisplay.setText(string.substring(0, 1));
         }
     }
 
     private void addMinusSignToDisplay() {
-        if (TextUtils.isEmpty(etDisplay.getText())) {
-            etDisplay.setText("-");
+        if (TextUtils.isEmpty(tvDisplay.getText())) {
+            tvDisplay.setText("-");
         } else if (isOperatorsClicked) {
-            etDisplay.setText("-");
+            tvDisplay.setText("-");
         } else {
-            etDisplay.setText(String.format("%s", "-" + etDisplay.getText().toString()));
+            tvDisplay.setText(String.format("%s", "-" + tvDisplay.getText().toString()));
         }
     }
 
     private void handleSignButton(View view) {
         if (view.getId() == R.id.bnSign) {
-            if (checkSignOfDisplay(etDisplay)) {
+            if (checkSignOfDisplay(tvDisplay)) {
                 removeMinusSignOffDisplay();
             } else {
                 addMinusSignToDisplay();
@@ -122,10 +128,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupTextHelperforOperands() {
         if (isFirstOperand) {
-            tvTest.setText(etDisplay.getText().toString());
+            tvTest.setText(tvDisplay.getText().toString());
         } else if (isSecondOperand) {
             String text = operand1.toPlainString() + " " + operator.sign + " "
-                    + etDisplay.getText().toString();
+                    + tvDisplay.getText().toString();
             tvTest.setText(text);
         }
     }
@@ -134,20 +140,20 @@ public class MainActivity extends AppCompatActivity {
         if (returnString(view.getId()) != null) {
             if (isResultClicked) {
                 resetDisplay();
-                appendToDisplay(returnString(view.getId()), etDisplay);
+                appendToDisplay(returnString(view.getId()), tvDisplay);
                 isResultClicked = false;
                 isOperatorsClicked = false;
             } else if (isOperatorsClicked) {
-                if (etDisplay.getText().toString().equals("-")) {
-                    appendToDisplay(returnString(view.getId()), etDisplay);
+                if (tvDisplay.getText().toString().equals("-")) {
+                    appendToDisplay(returnString(view.getId()), tvDisplay);
                 } else {
                     resetDisplay();
-                    appendToDisplay(returnString(view.getId()), etDisplay);
+                    appendToDisplay(returnString(view.getId()), tvDisplay);
                     isOperatorsClicked = false;
                 }
 
             } else {
-                appendToDisplay(returnString(view.getId()), etDisplay);
+                appendToDisplay(returnString(view.getId()), tvDisplay);
             }
             setupTextHelperforOperands();
         }
@@ -158,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
                 || view.getId() == R.id.bnDiv || view.getId() == R.id.bnMul) {
             operator = returnOperator(view);
             try {
-                operand1 = getOperand(etDisplay);
+                operand1 = getOperand(tvDisplay);
                 isOperatorsClicked = true;
                 isFirstOperand = false;
                 isSecondOperand = true;
@@ -172,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
     private void handleEqualButton(View view) {
         if (operand1 != null && view.getId() == R.id.bnResult) {
             try {
-                operand2 = getOperand(etDisplay);
+                operand2 = getOperand(tvDisplay);
                 isResultClicked = true;
                 isFirstOperand = true;
                 isSecondOperand = false;
@@ -182,10 +188,10 @@ public class MainActivity extends AppCompatActivity {
             }
 
             try {
-                calculateResult(operator, operand1,operand2, etDisplay);
+                calculateResult(operator, operand1,operand2, tvDisplay);
             } catch (IllegalArgumentException e) {
                 e.printStackTrace();
-                etDisplay.setText(getResources().getText(R.string.error));
+                tvDisplay.setText(getResources().getText(R.string.error));
             }
             String text = "" + operand1.toPlainString() + " " + operator.sign + " "
                     + operand2.toPlainString() + " = ";
@@ -206,9 +212,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void handleCeButton(View view) {
         if (view.getId() == R.id.bnDel){
-            int length = etDisplay.getText().length();
+            int length = tvDisplay.getText().length();
             if (length >= 1) {
-                etDisplay.getText().delete(length - 1, length);
+                String string = tvDisplay.getText().toString();
+                tvDisplay.setText(string.substring(0, 1));
             }
         }
     }

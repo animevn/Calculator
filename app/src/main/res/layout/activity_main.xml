@@ -1,21 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <EditText
-        android:id="@+id/etDisplay"
+    <TextView
+        android:id="@+id/tvDisplay"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:background="@drawable/border"
-        android:cursorVisible="false"
         android:ems="10"
-        android:inputType="numberDecimal"
         android:singleLine="true"
         android:textAlignment="textEnd"
         android:textSize="36sp"
@@ -39,7 +36,7 @@
         app:layout_constraintEnd_toStartOf="@+id/bnSub"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etDisplay" />
+        app:layout_constraintTop_toBottomOf="@+id/tvDisplay" />
 
     <Button
         android:id="@+id/bnZero"
@@ -68,7 +65,7 @@
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="@+id/bnTwo"
         app:layout_constraintDimensionRatio="1"
-        app:layout_constraintEnd_toStartOf="@+id/bnResult"
+        app:layout_constraintEnd_toStartOf="@+id/bnSquare"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/bnTwo"
         app:layout_constraintTop_toTopOf="@+id/bnTwo" />
@@ -137,13 +134,13 @@
 
 
     <Button
-        android:id="@+id/bnEmpty1"
+        android:id="@+id/bnResult"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
         android:background="@drawable/border"
-        android:text="@string/empty"
+        android:text="@string/bnResult"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="@+id/bnSix"
         app:layout_constraintDimensionRatio="1"
@@ -177,7 +174,7 @@
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="@+id/bnFive"
         app:layout_constraintDimensionRatio="1"
-        app:layout_constraintEnd_toStartOf="@+id/bnEmpty1"
+        app:layout_constraintEnd_toStartOf="@+id/bnResult"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/bnFive"
         app:layout_constraintTop_toTopOf="@+id/bnFive" />
@@ -204,8 +201,8 @@
         android:layout_marginStart="24dp"
         android:background="@drawable/border"
         android:text="@string/bnSign"
-        android:textSize="30sp"
         android:textAllCaps="false"
+        android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="@+id/bnDot"
         app:layout_constraintDimensionRatio="1"
         app:layout_constraintEnd_toStartOf="@+id/bnDel"
@@ -328,13 +325,13 @@
         app:layout_constraintTop_toTopOf="@+id/bnDiv" />
 
     <Button
-        android:id="@+id/bnResult"
+        android:id="@+id/bnSquare"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
         android:background="@drawable/border"
-        android:text="@string/bnResult"
+        android:text="@string/bnSquare"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="@+id/bnThree"
         app:layout_constraintDimensionRatio="1"
@@ -350,7 +347,7 @@
         android:layout_marginTop="16dp"
         android:background="@drawable/border"
         android:textAlignment="textEnd"
-        app:layout_constraintEnd_toEndOf="@+id/etDisplay"
-        app:layout_constraintStart_toStartOf="@+id/etDisplay"
+        app:layout_constraintEnd_toEndOf="@+id/tvDisplay"
+        app:layout_constraintStart_toStartOf="@+id/tvDisplay"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

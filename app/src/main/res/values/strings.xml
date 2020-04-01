@@ -18,7 +18,7 @@
     <string name="bnEight">8</string>
     <string name="bnNine">9</string>
     <string name="bnDel">DE</string>
-    <string name="empty" />
+    <string name="bnSquare">√</string>
     <string name="bnCE">CE</string>
     <string name="error">Divide by zero?</string>
     <string name="bnSign">+/-</string>

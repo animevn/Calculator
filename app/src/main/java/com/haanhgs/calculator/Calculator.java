@@ -5,9 +5,10 @@ import android.content.pm.ActivityInfo;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-
 import static com.haanhgs.calculator.Operator.Add;
 import static com.haanhgs.calculator.Operator.Div;
 import static com.haanhgs.calculator.Operator.Mul;
@@ -75,21 +76,21 @@ public class Calculator {
         return result;
     }
 
-    public static boolean checkSignOfDisplay(EditText etDisplay) {
-        String firstChar = getFirstChar(etDisplay.getText().toString());
+    public static boolean checkSignOfDisplay(TextView tvDisplay) {
+        String firstChar = getFirstChar(tvDisplay.getText().toString());
         return firstChar.equals("-");
     }
 
-    public static BigDecimal getOperand(EditText editText) {
+    public static BigDecimal getOperand(TextView editText) {
         return new BigDecimal(editText.getText().toString());
     }
 
-    public static void appendToDisplay(String string, EditText etDisplay) {
+    public static void appendToDisplay(String string, TextView etDisplay) {
         etDisplay.append(string);
     }
 
     public static void calculateResult(Operator operator, BigDecimal operand1,
-                                       BigDecimal operand2, EditText etDisplay) {
+                                       BigDecimal operand2, TextView etDisplay) {
         String result;
         switch (operator) {
             case Add:
