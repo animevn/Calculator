@@ -1,4 +1,4 @@
-package com.haanhgs.enumcalculatordemo;
+package com.haanhgs.calculator;
 
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -12,13 +12,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import static com.haanhgs.enumcalculatordemo.Calculator.appendToDisplay;
-import static com.haanhgs.enumcalculatordemo.Calculator.calculateResult;
-import static com.haanhgs.enumcalculatordemo.Calculator.checkSignOfDisplay;
-import static com.haanhgs.enumcalculatordemo.Calculator.getOperand;
-import static com.haanhgs.enumcalculatordemo.Calculator.returnOperator;
-import static com.haanhgs.enumcalculatordemo.Calculator.returnString;
-import static com.haanhgs.enumcalculatordemo.Calculator.setPortraitMode;
+import static com.haanhgs.calculator.Calculator.appendToDisplay;
+import static com.haanhgs.calculator.Calculator.calculateResult;
+import static com.haanhgs.calculator.Calculator.checkSignOfDisplay;
+import static com.haanhgs.calculator.Calculator.getOperand;
+import static com.haanhgs.calculator.Calculator.returnOperator;
+import static com.haanhgs.calculator.Calculator.returnString;
+import static com.haanhgs.calculator.Calculator.setPortraitMode;
 
 public class MainActivity extends AppCompatActivity {
 

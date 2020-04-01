@@ -1,4 +1,4 @@
-package com.haanhgs.enumcalculatordemo;
+package com.haanhgs.calculator;
 
 public enum Operator {
     Add("+"), Sub("-"), Mul("x"), Div(":");

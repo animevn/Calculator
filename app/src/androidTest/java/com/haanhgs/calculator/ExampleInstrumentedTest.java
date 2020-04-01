@@ -1,4 +1,4 @@
-package com.haanhgs.enumcalculatordemo;
+package com.haanhgs.calculator;
 
 import android.content.Context;
 

@@ -1,4 +1,4 @@
-package com.haanhgs.enumcalculatordemo;
+package com.haanhgs.calculator;
 
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
@@ -8,10 +8,10 @@ import android.widget.EditText;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-import static com.haanhgs.enumcalculatordemo.Operator.Add;
-import static com.haanhgs.enumcalculatordemo.Operator.Div;
-import static com.haanhgs.enumcalculatordemo.Operator.Mul;
-import static com.haanhgs.enumcalculatordemo.Operator.Sub;
+import static com.haanhgs.calculator.Operator.Add;
+import static com.haanhgs.calculator.Operator.Div;
+import static com.haanhgs.calculator.Operator.Mul;
+import static com.haanhgs.calculator.Operator.Sub;
 
 public class Calculator {
 
