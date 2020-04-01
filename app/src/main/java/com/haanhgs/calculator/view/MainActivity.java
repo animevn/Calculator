@@ -6,17 +6,10 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.VideoView;
-
 import com.haanhgs.calculator.R;
-import com.haanhgs.calculator.model.Calculator;
-import com.haanhgs.calculator.model.Operator;
 import com.haanhgs.calculator.viewmodel.CalculatorViewModel;
-
-import java.math.BigDecimal;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -69,16 +62,6 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.bnSquare)
     Button bnSquare;
 
-//
-//    private BigDecimal operand1;
-//    private BigDecimal operand2;
-//    private Operator operator;
-//
-//    private boolean isOperatorsClicked = false;
-//    private boolean isResultClicked = false;
-//    private boolean isFirstOperand = true;
-//    private boolean isSecondOperand = false;
-
     private CalculatorViewModel viewModel;
 
     private void initViewModel(){
@@ -89,7 +72,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
     private void hideActionBar() {
         if (getSupportActionBar() != null) getSupportActionBar().hide();
         int rotation = getWindowManager().getDefaultDisplay().getRotation();
@@ -98,7 +80,6 @@ public class MainActivity extends AppCompatActivity {
                     WindowManager.LayoutParams.FLAG_FULLSCREEN);
         }
     }
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -164,6 +145,7 @@ public class MainActivity extends AppCompatActivity {
                 viewModel.clickMul();
                 break;
             case R.id.bnSquare:
+                viewModel.clickSqrt();
                 break;
             case R.id.bnResult:
                 viewModel.clickEqual();
@@ -177,127 +159,4 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
-
-//    private void removeMinusSignOffDisplay() {
-//        if (!TextUtils.isEmpty(tvDisplay.getText())) {
-//            String string = tvDisplay.getText().toString();
-//            tvDisplay.setText(string.substring(0, 1));
-//        }
-//    }
-//
-//    private void addMinusSignToDisplay() {
-//        if (TextUtils.isEmpty(tvDisplay.getText())) {
-//            tvDisplay.setText("-");
-//        } else if (isOperatorsClicked) {
-//            tvDisplay.setText("-");
-//        } else {
-//            tvDisplay.setText(String.format("%s", "-" + tvDisplay.getText().toString()));
-//        }
-//    }
-//
-//    private void handleSignButton(View view) {
-//        if (view.getId() == R.id.bnSign) {
-//            if (checkSignOfDisplay(tvDisplay)) {
-//                removeMinusSignOffDisplay();
-//            } else {
-//                addMinusSignToDisplay();
-//            }
-//        }
-//    }
-//
-//    private void setupTextHelperforOperands() {
-//        if (isFirstOperand) {
-//            tvSecond.setText(tvDisplay.getText().toString());
-//        } else if (isSecondOperand) {
-//            String text = operand1.toPlainString() + " " + operator.sign + " "
-//                    + tvDisplay.getText().toString();
-//            tvSecond.setText(text);
-//        }
-//    }
-//
-//    private void handleNumberButtons(View view) {
-//        if (returnString(view.getId()) != null) {
-//            if (isResultClicked) {
-//                resetDisplay();
-//                appendToDisplay(returnString(view.getId()), tvDisplay);
-//                isResultClicked = false;
-//                isOperatorsClicked = false;
-//            } else if (isOperatorsClicked) {
-//                if (tvDisplay.getText().toString().equals("-")) {
-//                    appendToDisplay(returnString(view.getId()), tvDisplay);
-//                } else {
-//                    resetDisplay();
-//                    appendToDisplay(returnString(view.getId()), tvDisplay);
-//                    isOperatorsClicked = false;
-//                }
-//
-//            } else {
-//                appendToDisplay(returnString(view.getId()), tvDisplay);
-//            }
-//            setupTextHelperforOperands();
-//        }
-//    }
-//
-//    private void handleOperatorsButtons(View view) {
-//        if (view.getId() == R.id.bnAdd || view.getId() == R.id.bnSub
-//                || view.getId() == R.id.bnDiv || view.getId() == R.id.bnMul) {
-//            operator = returnOperator(view);
-//            try {
-//                operand1 = getOperand(tvDisplay);
-//                isOperatorsClicked = true;
-//                isFirstOperand = false;
-//                isSecondOperand = true;
-//            } catch (NumberFormatException e) {
-//                e.printStackTrace();
-//            }
-//            tvSecond.setText(String.format("%s", operand1.toPlainString() + " " + operator.sign));
-//        }
-//    }
-//
-//    private void handleEqualButton(View view) {
-//        if (operand1 != null && view.getId() == R.id.bnResult) {
-//            try {
-//                operand2 = getOperand(tvDisplay);
-//                isResultClicked = true;
-//                isFirstOperand = true;
-//                isSecondOperand = false;
-//            } catch (NumberFormatException e) {
-//                e.printStackTrace();
-//                return;
-//            }
-//
-//            try {
-//                calculateResult(operator, operand1,operand2, tvDisplay);
-//            } catch (IllegalArgumentException e) {
-//                e.printStackTrace();
-//                tvDisplay.setText(getResources().getText(R.string.error));
-//            }
-//            String text = "" + operand1.toPlainString() + " " + operator.sign + " "
-//                    + operand2.toPlainString() + " = ";
-//            tvSecond.setText(String.format("%s", text));
-//        }
-//    }
-//
-//    private void handleDelButton(View view) {
-//        if (view.getId() == R.id.bnCE) {
-//            resetDisplay();
-//            resetTextHelper();
-//            operand1 = null;
-//            operand2 = null;
-//            isFirstOperand = true;
-//            isSecondOperand = false;
-//        }
-//    }
-//
-//    private void handleCeButton(View view) {
-//        if (view.getId() == R.id.bnDel){
-//            int length = tvDisplay.getText().length();
-//            if (length >= 1) {
-//                String string = tvDisplay.getText().toString();
-//                tvDisplay.setText(string.substring(0, 1));
-//            }
-//        }
-//    }
-
-
 }

@@ -4,6 +4,7 @@ import android.text.TextUtils;
 import android.widget.TextView;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.math.RoundingMode;
 import androidx.lifecycle.MutableLiveData;
 import static com.haanhgs.calculator.model.Operator.Add;
@@ -171,7 +172,34 @@ public class Repo {
         liveData.setValue(calculator);
     }
 
-    private BigDecimal getOperand(String string) {
+    public void clickSqrt(){
+        String stringMain = calculator.getStringMain();
+        if (getBigDec(stringMain).compareTo(BigDecimal.ZERO) >= 0){
+            double sqrt = Math.sqrt(Double.valueOf(stringMain));
+            BigDecimal sqrtBigDec = BigDecimal.valueOf(sqrt).round(MathContext.DECIMAL32);
+            if (calculator.getState() == State.Equal){
+                calculator.setOperand1(sqrtBigDec);
+                calculator.setStringMain(String.valueOf(sqrtBigDec));
+                calculator.setStringSecond(String.valueOf(sqrtBigDec));
+            }else if (calculator.getState() == State.Op1){
+                calculator.setResult(sqrtBigDec);
+                calculator.setStringMain(String.valueOf(sqrtBigDec));
+                String secondStr = calculator.getStringSecond();
+                String subString = secondStr.substring(0, secondStr.length() - stringMain.length());
+                calculator.setStringSecond(subString + String.valueOf(sqrtBigDec));
+                calculator.setState(State.Equal);
+            }else if (calculator.getState() == State.Op2){
+                calculator.setOperand2(sqrtBigDec);
+                calculator.setStringMain(String.valueOf(sqrtBigDec));
+                String secondStr = calculator.getStringSecond();
+                String subString = secondStr.substring(0, secondStr.length() - stringMain.length());
+                calculator.setStringSecond(subString + String.valueOf(sqrtBigDec));
+            }
+        }
+        liveData.setValue(calculator);
+    }
+
+    private BigDecimal getBigDec(String string) {
         return new BigDecimal(string);
     }
 
@@ -233,7 +261,7 @@ public class Repo {
         String string = calculator.getStringMain();
         if (!TextUtils.isEmpty(string)){
             if (calculator.getState() == State.Op1){
-                calculator.setOperand1(getOperand(string));
+                calculator.setOperand1(getBigDec(string));
                 calculator.setStringSecond(calculator.getStringSecond() + getOpSign(operator));
                 calculator.setStringMain("");
                 calculator.setOperator(operator);
@@ -242,7 +270,7 @@ public class Repo {
                 calculator.setOperator(operator);
                 calculator.setStringSecond(calculator.getStringSecond() + getOpSign(operator));
             }else if (calculator.getState() == State.Op2){
-                calculator.setOperand2(getOperand(string));
+                calculator.setOperand2(getBigDec(string));
                 doOperator(calculator.getOperator());
                 calculator.setStringSecond(calculator.getStringSecond() + getOpSign(operator));
                 calculator.setStringMain("");
@@ -277,12 +305,11 @@ public class Repo {
         clickOperator(Mul);
     }
 
-
     public void clickEqual(){
         String string = calculator.getStringMain();
         if (!TextUtils.isEmpty(string)){
             if (calculator.getState() == State.Op2){
-                calculator.setOperand2(getOperand(string));
+                calculator.setOperand2(getBigDec(string));
                 doOperator(calculator.getOperator());
                 calculator.setStringMain(String.valueOf(calculator.getResult()));
                 calculator.setStringSecond(calculator.getStringSecond() + " = "
@@ -292,8 +319,6 @@ public class Repo {
             }
         }
     }
-
-
 
     private static String getFirstChar(String string) {
         String result = "";
