@@ -50,6 +50,10 @@ public class CalculatorViewModel extends ViewModel {
         repo.clickNine();
     }
 
+    public void clickDot(){
+        repo.clickDot();
+    }
+
     public void clickZero(){
         repo.clickZero();
     }

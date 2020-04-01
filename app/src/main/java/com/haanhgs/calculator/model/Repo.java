@@ -57,8 +57,8 @@ public class Repo {
     }
 
     public void clickZero(){
-        if (!TextUtils.isEmpty(calculator.getStringMain()) && limitMain()
-                && calculator.getState() != State.Equal){
+        if (calculator.getState() == State.Equal) clickDelete();
+        if (limitMain() && !calculator.getStringMain().equals("0")){
             calculator.setStringMain(calculator.getStringMain() + "0");
             calculator.setStringSecond(calculator.getStringSecond() + "0");
             setStateForNumbersAfterOperator();
@@ -67,10 +67,15 @@ public class Repo {
     }
 
     private void clickNumber(String number){
+        if (calculator.getState() == State.Equal) clickDelete();
         if (limitMain()){
-            if (calculator.getState() == State.Equal) clickDelete();
-            calculator.setStringMain(calculator.getStringMain() + number);
-            calculator.setStringSecond(calculator.getStringSecond() + number);
+            if (calculator.getStringMain().equals("0")){
+                calculator.setStringMain(number);
+                calculator.setStringSecond(number);
+            }else {
+                calculator.setStringMain(calculator.getStringMain() + number);
+                calculator.setStringSecond(calculator.getStringSecond() + number);
+            }
             if (calculator.getState() == State.Operator) calculator.setState(State.Op2);
             liveData.setValue(calculator);
         }
@@ -112,6 +117,39 @@ public class Repo {
 
     public void clickNine(){
         clickNumber("9");
+    }
+
+    public void clickDot(){
+        String stringMain = calculator.getStringMain();
+        if (calculator.getState() == State.Op1){
+            if (TextUtils.isEmpty(stringMain)){
+                calculator.setStringMain("0.");
+                calculator.setStringSecond("0.");
+            }else if (!stringMain.contains(".")){
+                calculator.setStringMain(calculator.getStringMain() + ".");
+                calculator.setStringSecond(calculator.getStringSecond() + ".");
+            }
+
+        }else if (calculator.getState() == State.Operator){
+            calculator.setStringMain("0.");
+            calculator.setStringSecond(calculator.getStringSecond() + " 0.");
+
+        }else if (calculator.getState() == State.Op2){
+            if (TextUtils.isEmpty(stringMain)){
+                calculator.setStringMain("0.");
+                calculator.setStringSecond(calculator.getStringSecond() + " 0.");
+            }else if (!stringMain.contains(".")){
+                calculator.setStringMain(calculator.getStringMain() + ".");
+                calculator.setStringSecond(calculator.getStringSecond() + ".");
+            }
+
+        }else if (calculator.getState() == State.Equal){
+            calculator.setStringMain("0.");
+            calculator.setStringSecond("0.");
+            calculator.setState(State.Op1);
+        }
+
+        liveData.setValue(calculator);
     }
 
     private BigDecimal getOperand(String string) {

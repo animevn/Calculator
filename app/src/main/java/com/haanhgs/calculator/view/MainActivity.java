@@ -148,6 +148,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.bnSign:
                 break;
             case R.id.bnDot:
+                viewModel.clickDot();
                 break;
             case R.id.bnAdd:
                 viewModel.clickAdd();
