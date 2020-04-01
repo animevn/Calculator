@@ -121,10 +121,14 @@ public class Repo {
 
     public void clickDot(){
         String stringMain = calculator.getStringMain();
-        if (calculator.getState() == State.Op1){
+
+        if (calculator.getState() == State.Op1 || calculator.getState() == State.Op2){
             if (TextUtils.isEmpty(stringMain)){
                 calculator.setStringMain("0.");
-                calculator.setStringSecond("0.");
+                calculator.setStringSecond(calculator.getStringSecond() + " 0.");
+            }else if (stringMain.equals("-")){
+                calculator.setStringMain(calculator.getStringMain() + "0.");
+                calculator.setStringSecond(calculator.getStringSecond() + "0.");
             }else if (!stringMain.contains(".")){
                 calculator.setStringMain(calculator.getStringMain() + ".");
                 calculator.setStringSecond(calculator.getStringSecond() + ".");
@@ -134,21 +138,36 @@ public class Repo {
             calculator.setStringMain("0.");
             calculator.setStringSecond(calculator.getStringSecond() + " 0.");
 
-        }else if (calculator.getState() == State.Op2){
-            if (TextUtils.isEmpty(stringMain)){
-                calculator.setStringMain("0.");
-                calculator.setStringSecond(calculator.getStringSecond() + " 0.");
-            }else if (!stringMain.contains(".")){
-                calculator.setStringMain(calculator.getStringMain() + ".");
-                calculator.setStringSecond(calculator.getStringSecond() + ".");
-            }
-
         }else if (calculator.getState() == State.Equal){
             calculator.setStringMain("0.");
             calculator.setStringSecond("0.");
             calculator.setState(State.Op1);
         }
 
+        liveData.setValue(calculator);
+    }
+
+    public void clickMinus(){
+        String stringMain = calculator.getStringMain();
+        String stringSecond = calculator.getStringSecond();
+
+        if (calculator.getState() == State.Equal){
+            calculator.setStringMain("-");
+            calculator.setStringSecond("-");
+            calculator.setState(State.Op1);
+        }else if (calculator.getState() == State.Op1 || calculator.getState() == State.Op2){
+            if (TextUtils.isEmpty(stringMain)){
+                calculator.setStringMain("-");
+                calculator.setStringSecond(calculator.getStringSecond() + "-");
+            }else if (stringMain.equals("-")){
+                calculator.setStringMain("");
+                calculator.setStringSecond(stringSecond.substring(0, stringSecond.length() - 1));
+            }
+        }else if (calculator.getState() == State.Operator){
+            calculator.setStringMain("-");
+            calculator.setStringSecond(calculator.getStringSecond() + "-");
+            calculator.setState(State.Op2);
+        }
         liveData.setValue(calculator);
     }
 

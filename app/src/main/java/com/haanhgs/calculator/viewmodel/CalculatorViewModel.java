@@ -54,6 +54,10 @@ public class CalculatorViewModel extends ViewModel {
         repo.clickDot();
     }
 
+    public void clickMinus(){
+        repo.clickMinus();
+    }
+
     public void clickZero(){
         repo.clickZero();
     }
