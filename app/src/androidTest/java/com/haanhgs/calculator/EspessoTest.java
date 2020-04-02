@@ -99,6 +99,36 @@ public class EspessoTest {
         onView(withId(R.id.tvDisplay)).check(matches(withText("0.99")));
     }
 
+    @Test
+    public void testSign() {
+        onView(withId(R.id.bnSign)).perform(click());
+        onView(withId(R.id.tvDisplay)).check(matches(withText("-")));
+        onView(withId(R.id.bnSign)).perform(click());
+        onView(withId(R.id.tvDisplay)).check(matches(withText("")));
+        onView(withId(R.id.bnZero)).perform(click());
+        onView(withId(R.id.tvDisplay)).check(matches(withText("0")));
+        onView(withId(R.id.bnCE)).perform(click());
+        onView(withId(R.id.tvDisplay)).check(matches(withText("")));
+        onView(withId(R.id.bnSign)).perform(click());
+        onView(withId(R.id.tvDisplay)).check(matches(withText("-")));
+        onView(withId(R.id.bnZero)).perform(click());
+        onView(withId(R.id.tvDisplay)).check(matches(withText("-0")));
+        onView(withId(R.id.bnDot)).perform(click());
+        onView(withId(R.id.tvDisplay)).check(matches(withText("-0.")));
+        onView(withId(R.id.bnNine)).perform(click());
+        onView(withId(R.id.tvDisplay)).check(matches(withText("-0.9")));
+        onView(withId(R.id.bnNine)).perform(click());
+        onView(withId(R.id.tvDisplay)).check(matches(withText("-0.99")));
+        onView(withId(R.id.bnNine)).perform(click());
+        onView(withId(R.id.tvDisplay)).check(matches(withText("-0.999")));
+        onView(withId(R.id.bnNine)).perform(click());
+        onView(withId(R.id.tvDisplay)).check(matches(withText("-0.9999")));
+        onView(withId(R.id.bnNine)).perform(click());
+        onView(withId(R.id.tvDisplay)).check(matches(withText("-0.99999")));
+        onView(withId(R.id.bnNine)).perform(click());
+        onView(withId(R.id.tvDisplay)).check(matches(withText("-0.999999")));
+    }
+
 
 
 
