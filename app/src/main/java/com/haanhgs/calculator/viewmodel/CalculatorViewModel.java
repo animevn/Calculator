@@ -1,53 +1,61 @@
 package com.haanhgs.calculator.viewmodel;
 
+import android.app.Application;
+
 import com.haanhgs.calculator.model.Calculator;
 import com.haanhgs.calculator.model.Repo;
 
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.ViewModel;
 
-public class CalculatorViewModel extends ViewModel {
+public class CalculatorViewModel extends AndroidViewModel {
 
     private Repo repo = new Repo();
+
+    public CalculatorViewModel(@NonNull Application application) {
+        super(application);
+        repo.setLiveData();
+    }
 
     public LiveData<Calculator> getData(){
         return repo.getLiveData();
     }
 
     public void clickOne(){
-        repo.clickOne();
+        repo.clickNumber("1");
     }
 
     public void clickTwo(){
-        repo.clickTwo();
+        repo.clickNumber("2");
     }
 
     public void clickThree(){
-        repo.clickThree();
+        repo.clickNumber("3");
     }
 
     public void clickFour(){
-        repo.clickFour();
+        repo.clickNumber("4");
     }
 
     public void clickFive(){
-        repo.clickFive();
+        repo.clickNumber("5");
     }
 
     public void clickSix(){
-        repo.clickSix();
+        repo.clickNumber("6");
     }
 
     public void clickSeven(){
-        repo.clickSeven();
+        repo.clickNumber("7");
     }
 
     public void clickEight(){
-        repo.clickEight();
+        repo.clickNumber("8");
     }
 
     public void clickNine(){
-        repo.clickNine();
+        repo.clickNumber("9");
     }
 
     public void clickZero(){

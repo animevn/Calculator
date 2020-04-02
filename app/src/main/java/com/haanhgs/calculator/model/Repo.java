@@ -1,11 +1,13 @@
 package com.haanhgs.calculator.model;
 
+import android.annotation.SuppressLint;
 import android.text.TextUtils;
 import android.widget.TextView;
-
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
+import java.util.Locale;
+
 import androidx.lifecycle.MutableLiveData;
 import static com.haanhgs.calculator.model.Operator.Add;
 import static com.haanhgs.calculator.model.Operator.Div;
@@ -17,20 +19,65 @@ public class Repo {
     private Calculator calculator = new Calculator();
     private MutableLiveData<Calculator> liveData = new MutableLiveData<>();
 
-    public Repo() {
-        liveData.setValue(calculator);
+    public Calculator getCalculator() {
+        return calculator;
+    }
+
+    public void setCalculator(Calculator calculator) {
+        this.calculator = calculator;
     }
 
     public MutableLiveData<Calculator> getLiveData() {
         return liveData;
     }
 
-    private boolean limitMain(){
-        return calculator.getStringMain().length() < Constants.MAIN_LIMIT;
+    public void setLiveData() {
+        liveData.setValue(calculator);
     }
 
-    private void setStateForNumbersAfterOperator(){
-        if (calculator.getState() == State.Operator) calculator.setState(State.Op2);
+    public BigDecimal getBigDec(String string) {
+        return new BigDecimal(string);
+    }
+
+    public void add(){
+        BigDecimal bigDecimal = calculator.getOperand1().add(calculator.getOperand2());
+        String resultString = bigDecimal.stripTrailingZeros().toPlainString();
+        calculator.setResult(new BigDecimal(resultString));
+    }
+
+    public void sub(){
+        BigDecimal bigDecimal = calculator.getOperand1().subtract(calculator.getOperand2());
+        String resultString = bigDecimal.stripTrailingZeros().toPlainString();
+        calculator.setResult(new BigDecimal(resultString));
+    }
+
+    public void mul(){
+        BigDecimal bigDecimal = calculator.getOperand1().multiply(calculator.getOperand2());
+        String resultString = bigDecimal.stripTrailingZeros().toPlainString();
+        calculator.setResult(new BigDecimal(resultString));
+    }
+
+    public void div(){
+        if (!String.valueOf(calculator.getOperand2()).equals("0")){
+            BigDecimal bigDecimal = calculator.getOperand1()
+                    .divide(calculator.getOperand2(), 9, RoundingMode.HALF_UP);
+            String resultString = bigDecimal.stripTrailingZeros().toPlainString();
+            calculator.setResult(new BigDecimal(resultString));
+        }else {
+            calculator.setResult(null);
+        }
+    }
+
+    public BigDecimal sqrt(String string){
+        double sqrt = Math.sqrt(Double.valueOf(string));
+        String result = String.format(Locale.US, "%.9f", sqrt);
+        String strBigDec = new BigDecimal(result).stripTrailingZeros().toPlainString();
+        return new BigDecimal(strBigDec);
+    }
+
+
+    private boolean limitMain(){
+        return calculator.getStringMain().length() < Constants.MAIN_LIMIT;
     }
 
     public void clickDelete(){
@@ -62,12 +109,12 @@ public class Repo {
         if (limitMain() && !calculator.getStringMain().equals("0")){
             calculator.setStringMain(calculator.getStringMain() + "0");
             calculator.setStringSecond(calculator.getStringSecond() + "0");
-            setStateForNumbersAfterOperator();
+            if (calculator.getState() == State.Operator) calculator.setState(State.Op2);
             liveData.setValue(calculator);
         }
     }
 
-    private void clickNumber(String number){
+    public void clickNumber(String number){
         if (calculator.getState() == State.Equal) clickDelete();
         if (limitMain()){
             if (calculator.getStringMain().equals("0")){
@@ -80,44 +127,6 @@ public class Repo {
             if (calculator.getState() == State.Operator) calculator.setState(State.Op2);
             liveData.setValue(calculator);
         }
-    }
-
-
-    public void clickOne(){
-        clickNumber("1");
-
-    }
-
-    public void clickTwo(){
-        clickNumber("2");
-    }
-
-    public void clickThree(){
-        clickNumber("3");
-    }
-
-    public void clickFour(){
-        clickNumber("4");
-    }
-
-    public void clickFive(){
-        clickNumber("5");
-    }
-
-    public void clickSix(){
-        clickNumber("6");
-    }
-
-    public void clickSeven(){
-        clickNumber("7");
-    }
-
-    public void clickEight(){
-        clickNumber("8");
-    }
-
-    public void clickNine(){
-        clickNumber("9");
     }
 
     public void clickDot(){
@@ -176,7 +185,7 @@ public class Repo {
         String strMain = calculator.getStringMain();
         if (!TextUtils.isEmpty(strMain) && getBigDec(strMain).compareTo(BigDecimal.ZERO) >= 0){
             double sqrt = Math.sqrt(Double.valueOf(strMain));
-            BigDecimal sqrtBigDec = BigDecimal.valueOf(sqrt).round(MathContext.DECIMAL32);
+            BigDecimal sqrtBigDec = sqrt(strMain);
             if (calculator.getState() == State.Equal){
                 calculator.setOperand1(sqrtBigDec);
                 calculator.setStringMain(String.valueOf(sqrtBigDec));
@@ -199,38 +208,7 @@ public class Repo {
         liveData.setValue(calculator);
     }
 
-    private BigDecimal getBigDec(String string) {
-        return new BigDecimal(string);
-    }
 
-    private void add(){
-        BigDecimal bigDecimal = calculator.getOperand1().add(calculator.getOperand2());
-        String resultString = bigDecimal.stripTrailingZeros().toPlainString();
-        calculator.setResult(new BigDecimal(resultString));
-    }
-
-    private void sub(){
-        BigDecimal bigDecimal = calculator.getOperand1().subtract(calculator.getOperand2());
-        String resultString = bigDecimal.stripTrailingZeros().toPlainString();
-        calculator.setResult(new BigDecimal(resultString));
-    }
-
-    private void mul(){
-        BigDecimal bigDecimal = calculator.getOperand1().multiply(calculator.getOperand2());
-        String resultString = bigDecimal.stripTrailingZeros().toPlainString();
-        calculator.setResult(new BigDecimal(resultString));
-    }
-
-    private void div(){
-        if (!String.valueOf(calculator.getOperand2()).equals("0")){
-            BigDecimal bigDecimal = calculator.getOperand1()
-                    .divide(calculator.getOperand2(), 9, RoundingMode.HALF_UP);
-            String resultString = bigDecimal.stripTrailingZeros().toPlainString();
-            calculator.setResult(new BigDecimal(resultString));
-        }else {
-            calculator.setResult(null);
-        }
-    }
 
     private void doOperator(Operator operator){
         switch (operator){
