@@ -99,8 +99,7 @@ public class EspessoTest {
         onView(withId(R.id.tvDisplay)).check(matches(withText("0.99")));
     }
 
-    @Test
-    public void testSign() {
+    private void testSignUnit(){
         onView(withId(R.id.bnSign)).perform(click());
         onView(withId(R.id.tvDisplay)).check(matches(withText("-")));
         onView(withId(R.id.bnSign)).perform(click());
@@ -127,6 +126,18 @@ public class EspessoTest {
         onView(withId(R.id.tvDisplay)).check(matches(withText("-0.99999")));
         onView(withId(R.id.bnNine)).perform(click());
         onView(withId(R.id.tvDisplay)).check(matches(withText("-0.999999")));
+        onView(withId(R.id.bnDel)).perform(click());
+        onView(withId(R.id.tvDisplay)).check(matches(withText("")));
+    }
+
+    @Test
+    public void testSign() {
+        testSignUnit();
+    }
+
+    @Test
+    public void testAdd(){
+
     }
 
 
